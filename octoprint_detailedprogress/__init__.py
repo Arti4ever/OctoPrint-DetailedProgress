@@ -29,12 +29,12 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 				self._repeat_timer.cancel()
 				self._repeat_timer = None
 			self._logger.info("Printing stopped. Detailed progress stopped.")
-			self._printer.commands("M117 Print Done")
-		elif event == Events.CONNECTED:
-			ip = self._get_host_ip()
-			if not ip:
-				return
-			self._printer.commands("M117 IP {}".format(ip))
+#			self._printer.commands("M117 Print Done")
+#		elif event == Events.CONNECTED:
+#			ip = self._get_host_ip()
+#			if not ip:
+#				return
+#			self._printer.commands("M117 IP {}".format(ip))
 
 	def do_work(self):
 		if not self._printer.is_printing():
@@ -109,18 +109,18 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 			seconds = seconds % 60
 		return self._etl_format.format(**locals())
 
-	def _get_host_ip(self):
-		return [l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0]
+#	def _get_host_ip(self):
+#		return [l for l in ([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")][:1], [[(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) if l][0][0]
 
 	##~~ Settings
 
 	def get_settings_defaults(self):
 		return dict(
 			messages = [
-				"{completion:.2f}p  complete",
-				"ETL {printTimeLeft}",
-				"ETA {ETA}",
-				"{accuracy} accuracy"
+#				"{completion:.2f}%  Complete",
+				"Left: {printTimeLeft}",
+#				"ETA {ETA}",
+#				"{accuracy} accuracy"
 			],
 			eta_strftime = "%H %M %S Day %d",
 			etl_format = "{hours:02d}h{minutes:02d}m{seconds:02d}s",
